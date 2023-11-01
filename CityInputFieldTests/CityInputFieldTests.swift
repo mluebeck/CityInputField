@@ -18,29 +18,34 @@ final class CityInputFieldTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
-    func test_readCVSFileAndProcessToCityClass() {
+     
+    func test_openCVSFileAndGetCities() {
         let inputProcessor = CSVInputProcessor.init()
         do {
-            try inputProcessor.open(file:"germany")
+            let cities = try inputProcessor.open(file:"germany")
+            XCTAssertTrue(cities.count>0,"loaded cities successfully")
+            
         } catch {
             XCTAssertTrue(false,"input open error")
         }
-        XCTAssertTrue(true,"input opened successfully")
     }
+    
+    func test_CityInputViewInit() {
+        let civ = CityInputView(cities:[City]())
+        XCTAssertNotNil(civ.cities)
+        XCTAssertNotNil(civ.citiesSelectionList)
+        XCTAssertNotNil(civ.inputField)
+    }
+    
+    func test_CityInputViewInitWithNonzeroSize() {
+        let civ = CityInputView(cities:[City](),frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertEqual(civ.frame.width,1000)
+        XCTAssertEqual(civ.frame.height,1000)
+        XCTAssertEqual(civ.frame.origin.x,0)
+        XCTAssertEqual(civ.frame.origin.y,0)
+
+    }
+    
+    
 
 }
