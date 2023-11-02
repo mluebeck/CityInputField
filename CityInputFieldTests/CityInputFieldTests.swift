@@ -24,7 +24,6 @@ final class CityInputFieldTests: XCTestCase {
         do {
             let cities = try inputProcessor.open(file:"germany")
             XCTAssertTrue(cities.count>0,"loaded cities successfully")
-            
         } catch {
             XCTAssertTrue(false,"input open error")
         }
@@ -122,6 +121,16 @@ final class CityInputFieldTests: XCTestCase {
         XCTAssertTrue(CGFloat(civ.citiesSelectionList.numberOfRows(inSection: 0))*CityInputView.cellHeight>1000.0)
         XCTAssertEqual(civ.citiesSelectionList.frame.size.height,CGFloat(1000.0-civ.inputField.frame.size.height))
     }
+    
+    func test_CityInputView_TableViewCellHasCityText() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "Berlin"
+        civ.typeInText(text)
+        let cell = civ.tableView(civ.citiesSelectionList, cellForRowAt: IndexPath.init(row: 0, section: 0)) as! CityCell
+        XCTAssertEqual(text, cell.city!.text)
+    }
+    
     
     //MARK: Helper methods
     private func makeSUT() -> CityViewController {

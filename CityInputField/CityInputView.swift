@@ -20,6 +20,7 @@ class CityInputView : UIView  {
         self.addSubview(citiesSelectionList)
         self.citiesSelectionList.isHidden=true
         self.citiesSelectionList.dataSource = self
+        self.citiesSelectionList.register(CityCell.self,forCellReuseIdentifier: "CityInputCell")
     }
     
     public func typeInText(_ value : String) {
@@ -48,6 +49,7 @@ class CityInputView : UIView  {
         self.addSubview(citiesSelectionList)
         self.citiesSelectionList.isHidden=true
         self.citiesSelectionList.dataSource = self
+        self.citiesSelectionList.register(CityCell.self,forCellReuseIdentifier: "CityInputCell")
     }
     
 }
@@ -67,6 +69,37 @@ extension CityInputView : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "CityInputCell", for: indexPath) as? CityCell {
+            let filteredCities = self.cities.filter(
+                { $0.city.hasPrefix(self.inputField.text!)==true}
+            )
+            cell.city?.text = filteredCities[indexPath.row].city
+            return cell
+        }
+        else {
+            let cell = CityCell.init(style: .default, reuseIdentifier: "CityInputCell")
+            let filteredCities = self.cities.filter(
+                { $0.city.hasPrefix(self.inputField.text!)==true}
+            )
+            cell.city?.text = filteredCities[indexPath.row].city
+            return cell
+        }
+    }
+}
+
+class CityCell : UITableViewCell {
+    var city : UILabel?
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.city = UILabel()
+        self.contentView.addSubview(self.city!)
+        self.city?.frame = self.contentView.bounds
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.city = UILabel()
+        self.contentView.addSubview(self.city!)
+        self.city?.frame = self.contentView.bounds
     }
 }
