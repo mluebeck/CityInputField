@@ -8,6 +8,7 @@
 import UIKit
 
 class CityInputView : UIView  {
+    static let cellHeight = CGFloat(44)
     var cities : [City]
     var inputField = UITextField()
     var citiesSelectionList = UITableView()
@@ -24,9 +25,14 @@ class CityInputView : UIView  {
     public func typeInText(_ value : String) {
         self.inputField.text = value
         self.citiesSelectionList.isHidden=(value.count==0)
-        self.citiesSelectionList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 100.0)
         self.citiesSelectionList.reloadData()
+        var height = CGFloat(self.citiesSelectionList.numberOfRows(inSection: 0)) * CityInputView.cellHeight
+        if inputField.frame.size.height + height > self.frame.size.height {
+            height = self.frame.size.height - inputField.frame.size.height
+        }
+        self.citiesSelectionList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: height )
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -43,6 +49,7 @@ class CityInputView : UIView  {
         self.citiesSelectionList.isHidden=true
         self.citiesSelectionList.dataSource = self
     }
+    
 }
 
 extension CityInputView : UITextFieldDelegate {

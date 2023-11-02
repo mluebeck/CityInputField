@@ -99,6 +99,29 @@ final class CityInputFieldTests: XCTestCase {
         XCTAssertTrue(civ.citiesSelectionList.isHidden==true)
     }
     
+    func test_CityInputView_TableViewHeightWhenOnlyOneElement() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "Berlin"
+        civ.typeInText(text)
+        XCTAssertTrue(civ.citiesSelectionList.frame.size.height == CityInputView.cellHeight)
+    }
+    func test_CityInputView_TableViewHeightWhenSixElement() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "Be"
+        civ.typeInText(text)
+        XCTAssertTrue(civ.citiesSelectionList.frame.size.height == CityInputView.cellHeight*CGFloat(6))
+    }
+    
+    func test_CityInputView_TableViewHeightWhenMoreElementsThanCanBeVisible() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "B"
+        civ.typeInText(text)
+        XCTAssertTrue(CGFloat(civ.citiesSelectionList.numberOfRows(inSection: 0))*CityInputView.cellHeight>1000.0)
+        XCTAssertEqual(civ.citiesSelectionList.frame.size.height,CGFloat(1000.0-civ.inputField.frame.size.height))
+    }
     
     //MARK: Helper methods
     private func makeSUT() -> CityViewController {
