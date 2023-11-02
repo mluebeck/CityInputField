@@ -17,6 +17,7 @@
 		8CFF5BCC2AF2B9520093457A /* germany.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8CFF5BCB2AF2B9520093457A /* germany.csv */; };
 		8CFF5BCE2AF2D6300093457A /* CSVInputProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF5BCD2AF2D6300093457A /* CSVInputProcessor.swift */; };
 		8CFF5BD22AF30C440093457A /* CityInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF5BD12AF30C440093457A /* CityInputView.swift */; };
+		8CFF5BD42AF316C60093457A /* CityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF5BD32AF316C60093457A /* CityViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		8CFF5BCB2AF2B9520093457A /* germany.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = germany.csv; sourceTree = "<group>"; };
 		8CFF5BCD2AF2D6300093457A /* CSVInputProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVInputProcessor.swift; sourceTree = "<group>"; };
 		8CFF5BD12AF30C440093457A /* CityInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInputView.swift; sourceTree = "<group>"; };
+		8CFF5BD32AF316C60093457A /* CityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				8CFF5B9B2AF2B8E70093457A /* AppDelegate.swift */,
 				8CFF5B9D2AF2B8E70093457A /* SceneDelegate.swift */,
 				8CFF5B9F2AF2B8E70093457A /* ViewController.swift */,
+				8CFF5BD32AF316C60093457A /* CityViewController.swift */,
 				8CFF5BA12AF2B8E70093457A /* Main.storyboard */,
 				8CFF5BA42AF2B8E90093457A /* Assets.xcassets */,
 				8CFF5BCB2AF2B9520093457A /* germany.csv */,
@@ -213,6 +216,7 @@
 				8CFF5BCE2AF2D6300093457A /* CSVInputProcessor.swift in Sources */,
 				8CFF5B9E2AF2B8E70093457A /* SceneDelegate.swift in Sources */,
 				8CFF5BD22AF30C440093457A /* CityInputView.swift in Sources */,
+				8CFF5BD42AF316C60093457A /* CityViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

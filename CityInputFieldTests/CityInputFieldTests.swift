@@ -43,9 +43,32 @@ final class CityInputFieldTests: XCTestCase {
         XCTAssertEqual(civ.frame.height,1000)
         XCTAssertEqual(civ.frame.origin.x,0)
         XCTAssertEqual(civ.frame.origin.y,0)
-
+    }
+    
+    func test_CityInputViewEmbedInViewcontroller() {
+        let sut = makeSUT()
+        if let cityInputView = sut.cityInputView {
+            XCTAssertEqual(cityInputView.frame.size.height, 80.0)
+            XCTAssertEqual(cityInputView.frame.size.width, sut.view.frame.size.width)
+            XCTAssertEqual(cityInputView.frame.origin.x,0)
+            XCTAssertEqual(cityInputView.frame.origin.y,0)
+        } else {
+            XCTAssertTrue(false)
+        }
+    }
+    
+    func test_CityInputViewHasSubviews() {
+        let civ = CityInputView(cities:[City](),frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertEqual(civ.subviews.count, 2)
     }
     
     
+    
+    //MARK: Helper methods
+    private func makeSUT() -> CityViewController {
+        let controller = CityViewController()
+        controller.loadViewIfNeeded()
+        return controller
+    }
 
 }
