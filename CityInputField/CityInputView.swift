@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CityInputView : UIView {
+class CityInputView : UIView , UITextFieldDelegate {
     var cities : [City]
     var inputField = UITextField()
     var citiesSelectionList = UITableView()
@@ -19,6 +19,10 @@ class CityInputView : UIView {
         self.addSubview(citiesSelectionList)
     }
     
+    public func typeInText(_ value : String) {
+        self.inputField.text = value
+        self.citiesSelectionList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 100.0)
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -32,5 +36,9 @@ class CityInputView : UIView {
         super.init(frame: frame)
         self.addSubview(inputField)
         self.addSubview(citiesSelectionList)
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return true
     }
 }
