@@ -31,7 +31,7 @@ class CityInputView : UIView  {
     
     override init(frame:CGRect) {
         do {
-            self.cities = try CSVInputProcessor().open(file: "german.csv")
+            self.cities = try CSVInputProcessor().open(file: "germany")
         } catch {
             self.cities = [City]()
         }
