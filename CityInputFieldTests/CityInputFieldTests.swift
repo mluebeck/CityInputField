@@ -75,6 +75,19 @@ final class CityInputFieldTests: XCTestCase {
         XCTAssertTrue(civ.citiesSelectionList.frame.size.height>0 )
     }
     
+    func test_CityInputView_TextFieldIsNotEmptyAndListIsNonZero() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        do {
+            civ.cities = try CSVInputProcessor().open(file: "germany")
+        } catch {
+            civ.cities = []
+        }
+        XCTAssertTrue(civ.cities.count>0)
+        civ.typeInText("Ber")
+        XCTAssertTrue(civ.inputField.text!.count ==  3 )
+        XCTAssertTrue(civ.citiesSelectionList.numberOfRows(inSection: 0) > 0 )
+    }
+    
     //MARK: Helper methods
     private func makeSUT() -> CityViewController {
         let controller = CityViewController()
