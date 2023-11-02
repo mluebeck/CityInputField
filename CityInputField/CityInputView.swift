@@ -17,11 +17,13 @@ class CityInputView : UIView  {
         super.init(frame: frame)
         self.addSubview(inputField)
         self.addSubview(citiesSelectionList)
+        self.citiesSelectionList.isHidden=true
         self.citiesSelectionList.dataSource = self
     }
     
     public func typeInText(_ value : String) {
         self.inputField.text = value
+        self.citiesSelectionList.isHidden=(value.count==0)
         self.citiesSelectionList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 100.0)
         self.citiesSelectionList.reloadData()
     }
@@ -38,6 +40,7 @@ class CityInputView : UIView  {
         super.init(frame: frame)
         self.addSubview(inputField)
         self.addSubview(citiesSelectionList)
+        self.citiesSelectionList.isHidden=true
         self.citiesSelectionList.dataSource = self
     }
 }

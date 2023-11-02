@@ -85,6 +85,21 @@ final class CityInputFieldTests: XCTestCase {
         XCTAssertTrue(civ.citiesSelectionList.numberOfRows(inSection: 0) == 6 )  // 6 Cities in Germany starts with "Be"
     }
     
+    func test_CityInputView_ListVisibilityOn() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "Be"
+        civ.typeInText(text)
+        XCTAssertTrue(civ.citiesSelectionList.isHidden==false)
+    }
+    
+    func test_CityInputView_ListVisibilityOff() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        XCTAssertTrue(civ.citiesSelectionList.isHidden==true)
+    }
+    
+    
     //MARK: Helper methods
     private func makeSUT() -> CityViewController {
         let controller = CityViewController()
