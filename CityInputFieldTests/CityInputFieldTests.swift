@@ -69,7 +69,7 @@ final class CityInputFieldTests: XCTestCase {
     
     func test_CityInputView_TextFieldIsNotEmptyAndListHeightNonZero() {
         let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
-        civ.typeInText("Ber")
+        civ.typeInText("Lüb")
         XCTAssertTrue(civ.inputField.text!.count ==  3 )
         XCTAssertTrue(civ.citiesSelectionList.frame.size.height>0 )
     }
@@ -78,10 +78,10 @@ final class CityInputFieldTests: XCTestCase {
         let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
         
         XCTAssertTrue(civ.cities.count>0)
-        let text = "Be"
+        let text = "Lüb"
         civ.typeInText(text)
         XCTAssertTrue(civ.inputField.text!.count ==  text.count )
-        XCTAssertTrue(civ.citiesSelectionList.numberOfRows(inSection: 0) == 6 )  // 6 Cities in Germany starts with "Be"
+        XCTAssertTrue(civ.citiesSelectionList.numberOfRows(inSection: 0) == 4 )  // 6 Cities in Germany starts with "Be"
     }
     
     func test_CityInputView_ListVisibilityOn() {
@@ -90,6 +90,14 @@ final class CityInputFieldTests: XCTestCase {
         let text = "Be"
         civ.typeInText(text)
         XCTAssertTrue(civ.citiesSelectionList.isHidden==false)
+    }
+    
+    func test_CityInputView_CityNonExistent() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "BerlinerSchnauzeStadt"
+        civ.typeInText(text)
+        XCTAssertTrue(civ.citiesSelectionList.isHidden==true)
     }
     
     func test_CityInputView_ListVisibilityOff() {
@@ -105,12 +113,13 @@ final class CityInputFieldTests: XCTestCase {
         civ.typeInText(text)
         XCTAssertTrue(civ.citiesSelectionList.frame.size.height == CityInputView.cellHeight)
     }
-    func test_CityInputView_TableViewHeightWhenSixElement() {
+    func test_CityInputView_TableViewHeightWhenMultipleElement() {
         let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
         XCTAssertTrue(civ.cities.count>0)
-        let text = "Be"
+        let text = "Lüb"
         civ.typeInText(text)
-        XCTAssertTrue(civ.citiesSelectionList.frame.size.height == CityInputView.cellHeight*CGFloat(6))
+        let count = civ.filteredCity.count
+        XCTAssertTrue(civ.citiesSelectionList.frame.size.height == CityInputView.cellHeight*CGFloat(count))
     }
     
     func test_CityInputView_TableViewHeightWhenMoreElementsThanCanBeVisible() {
@@ -129,6 +138,35 @@ final class CityInputFieldTests: XCTestCase {
         civ.typeInText(text)
         let cell = civ.tableView(civ.citiesSelectionList, cellForRowAt: IndexPath.init(row: 0, section: 0)) as! CityCell
         XCTAssertEqual(text, cell.city!.text)
+    }
+    
+    
+    
+    func test_citySelection() {
+        let civ = CityInputView(frame: CGRect.init(x: 0, y: 0, width: 1000, height: 1000))
+        XCTAssertTrue(civ.cities.count>0)
+        let text = "Berlin"
+        var cityResult : String?
+        let exp = expectation(description: "Wait for   completion")
+
+        civ.typeInText(text)
+        civ.itemTapped = {
+            city in
+            cityResult = city.city
+            exp.fulfill()
+        }
+        if civ.filteredCity.count > 0 {
+            civ.tableView(civ.citiesSelectionList, didSelectRowAt: IndexPath.init(row: 0, section: 0))
+        } else {
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout:1.0)
+        if let c = cityResult {
+            XCTAssertEqual(c, text, "Selected city should match")
+            XCTAssertEqual(civ.inputField.text!, c, "Selected city should match input field")
+        } else {
+            XCTAssertTrue(civ.filteredCity.count>0,"City should exist.")
+        }
     }
     
     

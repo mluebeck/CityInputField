@@ -12,6 +12,13 @@ class CityInputView : UIView  {
     var cities : [City]
     var inputField = UITextField()
     var citiesSelectionList = UITableView()
+    var itemTapped : ((City) -> ())?
+    
+    var filteredCity : [City] {
+        return self.cities.filter(
+            { $0.city.hasPrefix(self.inputField.text!) }
+        )
+    }
     
     init(cities:[City],frame:CGRect = CGRect.zero) {
         self.cities = cities
@@ -25,7 +32,10 @@ class CityInputView : UIView  {
     
     public func typeInText(_ value : String) {
         self.inputField.text = value
-        self.citiesSelectionList.isHidden=(value.count==0)
+        self.citiesSelectionList.isHidden=false
+        if value.count == 0 || self.filteredCity.count == 0 {
+            self.citiesSelectionList.isHidden=true
+        }
         self.citiesSelectionList.reloadData()
         var height = CGFloat(self.citiesSelectionList.numberOfRows(inSection: 0)) * CityInputView.cellHeight
         if inputField.frame.size.height + height > self.frame.size.height {
@@ -60,28 +70,26 @@ extension CityInputView : UITextFieldDelegate {
     }
 }
 
+extension CityInputView : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.inputField.text = self.filteredCity[indexPath.row].city
+        self.itemTapped?(self.filteredCity[indexPath.row])
+    }
+}
+
 extension CityInputView : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let filteredCities = self.cities.filter(
-            { $0.city.hasPrefix(self.inputField.text!)==true}
-        )
-        return filteredCities.count
+        return self.filteredCity.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CityInputCell", for: indexPath) as? CityCell {
-            let filteredCities = self.cities.filter(
-                { $0.city.hasPrefix(self.inputField.text!)==true}
-            )
-            cell.city?.text = filteredCities[indexPath.row].city
+            cell.city?.text = self.filteredCity[indexPath.row].city
             return cell
         }
         else {
             let cell = CityCell.init(style: .default, reuseIdentifier: "CityInputCell")
-            let filteredCities = self.cities.filter(
-                { $0.city.hasPrefix(self.inputField.text!)==true}
-            )
-            cell.city?.text = filteredCities[indexPath.row].city
+            cell.city?.text = self.filteredCity[indexPath.row].city
             return cell
         }
     }
@@ -103,3 +111,5 @@ class CityCell : UITableViewCell {
         self.city?.frame = self.contentView.bounds
     }
 }
+
+
