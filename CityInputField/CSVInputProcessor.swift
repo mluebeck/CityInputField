@@ -33,15 +33,17 @@ public class CSVInputProcessor {
             throw NSError()
         }
         let str = String(decoding: storedSnapshotData, as: UTF8.self)
-        let array = str.components(separatedBy: CharacterSet(charactersIn: ";\r\n"))
-        array.enumerated().forEach {
-            if $0.offset % 11 == 0 && $0.offset>0 {
-                let city = City(city: array[$0.offset-11],
-                                latitude: Double(array[$0.offset-9]) ?? 0.0,
-                                longitude: Double(array[$0.offset-8]) ?? 0.0,
-                                country:array[$0.offset-4] ,
-                                population: Int(array[$0.offset-2]) ?? 0,
-                                density:Double(array[$0.offset-1]) ?? 0.0)
+        let linesArray = str.components(separatedBy: CharacterSet(charactersIn: "\n"))
+        linesArray.forEach
+        {
+            let array = $0.components(separatedBy: CharacterSet(charactersIn: ";"))
+            if array.count > 10 {
+                let city = City(city: array[0],
+                                latitude: Double(array[2]) ?? 0.0,
+                                longitude: Double(array[3]) ?? 0.0,
+                                country:array[7] ,
+                                population: Int(array[9]) ?? 0,
+                                density:Double(array[10].replacingOccurrences(of: "\r", with: "")) ?? 0.0)
                 cities.append(city)
             }
         }
